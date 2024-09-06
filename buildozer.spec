@@ -10,6 +10,12 @@ package.name = captcha_app
 package.domain = org.example
 
 # (str) Source code where the main.py is located
+source.dir = .
+
+# (str) Version of your application
+version = 1.0
+
+# (str) Source code where the main.py is located
 source.include_exts = py,png,jpg,kv,atlas
 
 # (list) Application requirements
