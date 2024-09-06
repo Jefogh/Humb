@@ -40,7 +40,7 @@ jobs:
     - name: Set up Android SDK
       run: |
         sudo apt-get install -y wget
-        # Download command-line tools
+        # Download Android command-line tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O commandlinetools.zip
         # Create SDK directory and extract
         mkdir -p $HOME/sdk/cmdline-tools
@@ -56,16 +56,16 @@ jobs:
     - name: Accept Android SDK licenses
       run: |
         yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-        # Force install build-tools and required packages including AIDL
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;35.0.0" --sdk_root=$HOME/sdk
 
-    - name: Install AIDL (Android Interface Definition Language)
+    - name: Install required SDK components
       run: |
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;35.0.0" --sdk_root=$HOME/sdk
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-31" --sdk_root=$HOME/sdk
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "sources;android-31" --sdk_root=$HOME/sdk
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;google;m2repository" --sdk_root=$HOME/sdk
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;android;m2repository" --sdk_root=$HOME/sdk
+        # Install required SDK components (build-tools, AIDL, platform-tools)
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;35.0.0" "sources;android-31" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;google;m2repository" "extras;android;m2repository" --sdk_root=$HOME/sdk
+
+    - name: Retry Accepting Licenses
+      run: |
+        yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
     - name: Update buildozer.spec for APK
       run: |
