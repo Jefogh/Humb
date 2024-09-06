@@ -40,15 +40,18 @@ jobs:
     - name: Set up Android SDK
       run: |
         sudo apt-get install -y wget
-        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
-        unzip commandlinetools-linux-8512546_latest.zip -d $HOME/sdk
+        # Download command-line tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O commandlinetools.zip
+        # Create SDK directory and extract
+        mkdir -p $HOME/sdk/cmdline-tools
+        unzip commandlinetools.zip -d $HOME/sdk/cmdline-tools
+        # Move to correct subdirectory
         mkdir -p $HOME/sdk/cmdline-tools/latest
-        mv $HOME/sdk/cmdline-tools/cmdline-tools/* $HOME/sdk/cmdline-tools/latest/ || true
+        mv $HOME/sdk/cmdline-tools/cmdline-tools/* $HOME/sdk/cmdline-tools/latest/
         
-        # Set environment variables correctly using tee -a to append to GITHUB_ENV
+        # Set environment variables
         echo "ANDROID_SDK_ROOT=$HOME/sdk" | tee -a $GITHUB_ENV
         echo "PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin:$HOME/sdk/platform-tools" | tee -a $GITHUB_ENV
-        echo "export PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin:$HOME/sdk/platform-tools" | tee -a $GITHUB_ENV
 
     - name: Accept Android SDK licenses
       run: |
