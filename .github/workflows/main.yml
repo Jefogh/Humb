@@ -47,12 +47,12 @@ jobs:
         
         # Set environment variables correctly using tee -a to append to GITHUB_ENV
         echo "ANDROID_SDK_ROOT=$HOME/sdk" | tee -a $GITHUB_ENV
-        echo "PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin" | tee -a $GITHUB_ENV
-        echo "PATH=$PATH:$HOME/sdk/platform-tools" | tee -a $GITHUB_ENV
+        echo "PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin:$HOME/sdk/platform-tools" | tee -a $GITHUB_ENV
+        echo "export PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin:$HOME/sdk/platform-tools" | tee -a $GITHUB_ENV
 
     - name: Accept Android SDK licenses
       run: |
-        yes | sdkmanager --licenses
+        yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
     - name: Update buildozer.spec for APK
       run: |
