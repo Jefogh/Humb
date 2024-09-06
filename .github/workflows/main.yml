@@ -56,8 +56,16 @@ jobs:
     - name: Accept Android SDK licenses
       run: |
         yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-        # Install Android SDK Build-Tools and required packages
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0" --sdk_root=$HOME/sdk
+        # Force install build-tools and required packages including AIDL
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;35.0.0" --sdk_root=$HOME/sdk
+
+    - name: Install AIDL (Android Interface Definition Language)
+      run: |
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;35.0.0" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-31" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "sources;android-31" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;google;m2repository" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;android;m2repository" --sdk_root=$HOME/sdk
 
     - name: Update buildozer.spec for APK
       run: |
