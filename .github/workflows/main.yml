@@ -57,11 +57,11 @@ jobs:
       run: |
         yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
-    - name: Install required SDK components
+    - name: Install required SDK components (including AIDL)
       run: |
         # Install required SDK components (build-tools, AIDL, platform-tools)
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;35.0.0" "sources;android-31" --sdk_root=$HOME/sdk
-        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;google;m2repository" "extras;android;m2repository" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;35.0.0" "sources;android-31" "platform-tools" --sdk_root=$HOME/sdk
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "extras;google;m2repository" "extras;android;m2repository" "platforms;android-31" --sdk_root=$HOME/sdk
 
     - name: Retry Accepting Licenses
       run: |
