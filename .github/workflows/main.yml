@@ -29,8 +29,6 @@ jobs:
             libgl1-mesa-dev libgles2-mesa-dev xvfb libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev \
             libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev \
             libtiff5-dev libx11-dev
-
-        # تثبيت Cython من pip في حال لم يكن متاحًا في apt
         pip3 install --upgrade pip
         pip3 install Cython==0.29.21
         pip3 install kivy[base] kivy[full] easyocr
@@ -39,10 +37,7 @@ jobs:
       run: |
         pip3 install buildozer
 
-    - name: Initialize buildozer
-      run: |
-        buildozer init
-
+    # تحديث buildozer.spec مباشرة بدلاً من إعادة تشغيل init
     - name: Update buildozer.spec for APK
       run: |
         sed -i 's/^# \(android\.api =\)/\1 31/' buildozer.spec
