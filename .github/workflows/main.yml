@@ -47,7 +47,7 @@ jobs:
         unzip commandlinetools.zip -d $HOME/sdk/cmdline-tools
         # Move to correct subdirectory
         mkdir -p $HOME/sdk/cmdline-tools/latest
-        mv $HOME/sdk/cmdline-tools/cmdline-tools/* $HOME/sdk/cmdline-tools/latest/
+        mv $HOME/sdk/cmdline-tools/cmdline-tools/* $HOME/sdk/cmdline-tools/latest/ || true
         
         # Set environment variables
         echo "ANDROID_SDK_ROOT=$HOME/sdk" | tee -a $GITHUB_ENV
@@ -56,6 +56,8 @@ jobs:
     - name: Accept Android SDK licenses
       run: |
         yes | $HOME/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+        # Install Android SDK Build-Tools and required packages
+        $HOME/sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0" --sdk_root=$HOME/sdk
 
     - name: Update buildozer.spec for APK
       run: |
