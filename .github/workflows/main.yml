@@ -37,6 +37,11 @@ jobs:
       run: |
         pip3 install buildozer
 
+    # خطوة لقبول اتفاقيات الترخيص الخاصة بـ Android SDK
+    - name: Accept Android SDK licenses
+      run: |
+        yes | sdkmanager --licenses
+
     # تحديث buildozer.spec مباشرة بدلاً من إعادة تشغيل init
     - name: Update buildozer.spec for APK
       run: |
