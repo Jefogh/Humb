@@ -37,12 +37,26 @@ jobs:
       run: |
         pip3 install buildozer
 
-    # خطوة لقبول اتفاقيات الترخيص الخاصة بـ Android SDK
+    # تثبيت Android SDK
+    - name: Set up Android SDK
+      run: |
+        sudo apt-get install -y wget
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+        unzip commandlinetools-linux-8512546_latest.zip -d $HOME/sdk
+        mkdir -p $HOME/sdk/cmdline-tools/latest
+        mv $HOME/sdk/cmdline-tools/* $HOME/sdk/cmdline-tools/latest/
+        
+        # إعداد متغيرات البيئة
+        echo "export ANDROID_SDK_ROOT=$HOME/sdk" >> $BASH_ENV
+        echo "export PATH=$PATH:$HOME/sdk/cmdline-tools/latest/bin" >> $BASH_ENV
+        echo "export PATH=$PATH:$HOME/sdk/platform-tools" >> $BASH_ENV
+        source $BASH_ENV
+
     - name: Accept Android SDK licenses
       run: |
         yes | sdkmanager --licenses
 
-    # تحديث buildozer.spec مباشرة بدلاً من إعادة تشغيل init
+    # تحديث buildozer.spec مباشرة
     - name: Update buildozer.spec for APK
       run: |
         sed -i 's/^# \(android\.api =\)/\1 31/' buildozer.spec
